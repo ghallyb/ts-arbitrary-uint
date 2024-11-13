@@ -1,29 +1,49 @@
 import { Maybe } from "ts-maybe";
 
-class ArbitraryUint {
+type ChunkSize = 8 | 16 | 32 | 64;
+type ChunkContainerType =
+    Uint8Array
+    | Uint16Array
+    | Uint32Array
+    | BigUint64Array
 
-    public size: number = 0;
+type ArbitraryUint = {
+    size: number;
+    chunkSize: ChunkSize;
+    chunkCount: number;
+    chunks: ChunkContainerType;
+}
 
-    public chunkSize: number = 0;
+type ArbitraryUint8 = ArbitraryUint & {
+    chunks: Uint8Array;
+}
 
-    public chunkCount: number = 0;
+type ArbitraryUint16 = ArbitraryUint & {
+    chunks: Uint16Array;
+}
 
-    public chunks: Maybe<BigUint64Array>;
+function getArbitraryUintFixedSizeFunctions(
+    size: number,
+    chunkSize: ChunkSize,
+    indexFrom: "Left" | "Right"
+) {
+    
+}
 
-    private createEmpty(size: number) {
-        if(size <= 0)
-            throw "Invalid Size";
+export function create(
+    size: number, 
+    chunkSize: ChunkSize) 
+{
 
-        const chunkSize = this.getOptimalChunkSize(size);
-        const chunkCount = Math.ceil(size / chunkSize);
+    
+
+}
+
+function equal(target: ArbitraryUint, compareTo: ArbitraryUint) {
+    for(var i = 0; i < target.chunks.length; i++) {
+        if(target.chunks[i] != compareTo.chunks[i])
+            return false;
     }
 
-    private getOptimalChunkSize(size: number) {
-
-        // Pick from 8, 16, 32, 64
-        // Is this practical / worthwhile implementing?
-
-        return 64;
-    }
-
+    return true;
 }

@@ -1,0 +1,46 @@
+Design Notes
+
+ArbitraryUint
+Wrapper class for array of 64bit uints.
+- Fixed size once created
+
+create(size: number, chunkSize: 8|16|32|64) = 32;
+createFromTypedArray(arr: TypedArray, chunkSize: 8|16|32|64) = 32);
+
+// Setting Values
+getSetBitFunctions(setDirection = Left | Right);
+setBit(target: ArbitraryUint, offset, val, from = Left | Right == Left);
+SetBits(start, val);
+
+// Bitwise operations
+and(...x: AribtraryUint)
+or(...x: AribtraryUint)
+xor(...x: AribtraryUint)
+
+// Comparisons. Ergonomics is tricky here.
+// subject, target is easier to read.
+// target, subject is easier for currying.
+Equal
+NotEqual
+GreaterThan
+LessThan
+GreaterThanOrEqual
+LessThanOrEqual
+
+opName(subject, comparison); // subject op compareTo
+equal(no1, no2)
+greaterThan(no1, no2) // is no1 greater than no2
+
+// Fast vs Slow operands
+If we know ahead of time that we are using
+fixed size and fixed chunkSize Uints, we can 
+do bitwise and comparison operations much more
+quickly because we will be omitting size 
+and chunkType checks and coalescing.
+
+For instance, when we don't have this info,
+we need to check:
+- Same size
+- Same chunk size
+- If either don't match, we need to pad. Doing
+  so increases cpu cycles and memory usage.
