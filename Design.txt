@@ -1,5 +1,14 @@
 Design Notes
 
+Should this be a UInt package? Or something like BinaryArray instead.
+- Not really intended for doing maths.
+- Only mathmatical operations needed for target project
+  are x == 0 or x > 0; Could simplify to IsZero and cut out
+  a lot of noise.
+- Need a "left to right" view rather than most / least significant
+  view on the binary. ie, each bit is of equal significance.
+
+
 ArbitraryUint
 Wrapper class for array of 64bit uints.
 - Fixed size once created
