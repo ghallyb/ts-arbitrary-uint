@@ -9,38 +9,28 @@ Should this be a UInt package? Or something like BinaryArray instead.
   view on the binary. ie, each bit is of equal significance.
 
 
-ArbitraryUint
-Wrapper class for array of 64bit uints.
-- Fixed size once created
+Should I use a proxy to map bit access to chunked access?
+- Main question is performance. Proxys are slow. Does
+  this effect my use case, since the underlying data type
+  doesn't actually have bit level array level access?
+- For the target use case I'll probably be setting way
+  more than one bit at a time, which will need to be done
+  by functions anyway. Can provide array [] access and
+  more efficient function getting setting as well?
 
-create(size: number, chunkSize: 8|16|32|64) = 32;
-createFromTypedArray(arr: TypedArray, chunkSize: 8|16|32|64) = 32);
+Flex expansion:
+- How should these grow and shrink?
+  - When two mismatched size are used in a bitwise or comparison operation : Grow to match biggest
+  - When an index larger than the current length is used to set: Grow to index or nearest byte?
+  - When an index larger than the current length is used to get: No action? Or Grow to index?
+  - Do shift operations cause expansios: Probs not, create growAndShiftLeft and growAndShiftRight(growBy, shiftBy)
+- Should we provide a way of specifying the default padding value during expansion: No,leave this out. Zero is used.
+  - 0 is default: yah
+  - 1 setable: through a property or shoehorn it into the constructor?
+- Add some functions to grow / shrink
 
-// Setting Values
-getSetBitFunctions(setDirection = Left | Right);
-setBit(target: ArbitraryUint, offset, val, from = Left | Right == Left);
-SetBits(start, val);
+// Fast vs Slow operations
 
-// Bitwise operations
-and(...x: AribtraryUint)
-or(...x: AribtraryUint)
-xor(...x: AribtraryUint)
-
-// Comparisons. Ergonomics is tricky here.
-// subject, target is easier to read.
-// target, subject is easier for currying.
-Equal
-NotEqual
-GreaterThan
-LessThan
-GreaterThanOrEqual
-LessThanOrEqual
-
-opName(subject, comparison); // subject op compareTo
-equal(no1, no2)
-greaterThan(no1, no2) // is no1 greater than no2
-
-// Fast vs Slow operands
 If we know ahead of time that we are using
 fixed size and fixed chunkSize Uints, we can 
 do bitwise and comparison operations much more
