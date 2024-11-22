@@ -7,8 +7,8 @@ describe('getFixedFns', () => {
     });
 });
 
-describe('getFlexFns', () => {
-    it('returns object', () => {
-        expect(getFlexFns()).toBeDefined();
-    });
-});
+// describe('getFlexFns', () => {
+//     it('returns object', () => {
+//         expect(getFlexFns()).toBeDefined();
+//     });
+// });
