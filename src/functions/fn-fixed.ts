@@ -46,10 +46,6 @@ function getFixedFns<
 
 }
 
-const test = getFixedFns(14, 32);
-const what = new FixedBinaryArray(13, 32);
-//test.or(what, what);
-
 export {
     getFixedFns
 }

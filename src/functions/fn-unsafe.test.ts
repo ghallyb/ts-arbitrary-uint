@@ -55,7 +55,7 @@ describe('createUnsafeFns', () => {
         expect(fns.and(x, y)).not.toBe(x);
         expect(fns.or(x, y)).not.toBe(x);
         expect(fns.xor(x, y)).not.toBe(x);
-        expect(fns.not(x, y)).not.toBe(x);
+        expect(fns.not(x)).not.toBe(x);
         //expect(fns.shiftLeft(x, 8)).not.toBe(x);
         //expect(fns.shiftRight(x, 8)).not.toBe(x);
     });
@@ -70,7 +70,7 @@ describe('createUnsafeFns', () => {
         expect(fns.mutAnd(x, y)).toBe(x);
         expect(fns.mutOr(x, y)).toBe(x);
         expect(fns.mutXor(x, y)).toBe(x);
-        expect(fns.mutNot(x, y)).toBe(x);
+        expect(fns.mutNot(x)).toBe(x);
         //expect(fns.mutShiftLeft(x, 8)).not.toBe(x);
         //expect(fns.mutShiftRight(x, 8)).not.toBe(x);
     });

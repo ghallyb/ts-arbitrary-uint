@@ -7,12 +7,13 @@
 import { None } from "ts-maybe";
 import { IBinaryArray } from "../types/BinaryArray";
 import { FlexBinaryArray } from "../types/FlexBinaryArray";
-import { OptionalyMutable, OptionalMutabilitySet } from "../types/PossiblyMutableFn";
+import { OptionalyMutable } from "../types/PossiblyMutableFn";
+import { OmitFirstParam } from "../types/OmitFirstParam";
 
 function and(
+    result: IBinaryArray,
     x: IBinaryArray, 
     y: IBinaryArray,
-    result: IBinaryArray,
 ): IBinaryArray {
     const length = x.view.length;
 
@@ -24,9 +25,9 @@ function and(
 }
 
 function or(
+    result: IBinaryArray,
     x: IBinaryArray, 
     y: IBinaryArray,
-    result: IBinaryArray,
 ): IBinaryArray {
     const length = x.view.length;
 
@@ -37,10 +38,10 @@ function or(
     return result;
 }
 
-function xor(    
+function xor(
+    result: IBinaryArray,
     x: IBinaryArray, 
     y: IBinaryArray,
-    result: IBinaryArray,
 ): IBinaryArray {
     const length = x.view.length;
 
@@ -52,8 +53,8 @@ function xor(
 }
 
 function not(    
-    x: IBinaryArray,
     result: IBinaryArray,
+    x: IBinaryArray,
 ): IBinaryArray {
     const length = x.view.length;
 
@@ -65,17 +66,17 @@ function not(
 }
 
 function shiftLeft(
+    result: IBinaryArray,
     x: IBinaryArray,
     no: number,
-    result: IBinaryArray,
 ): IBinaryArray {
     throw Error("shiftLeft Not Implemented.");
 }
 
 function shiftRight(
+    result: IBinaryArray,
     x: IBinaryArray,
     no: number,
-    result: IBinaryArray,
 ): IBinaryArray {
     throw Error("shiftRight Not Implemented.");
 }
@@ -135,23 +136,23 @@ function getImmutable<
 >(
     f: F,
     newArrFn: NewBinaryArrayFn
-): OptionalMutabilitySet<F> {
+): OmitFirstParam<F> {
 
-    return ((x: any, y: any) => f(
-        x, 
-        y,
+    return ((...args: any[]) => f(
         newArrFn(),
-    )) as OptionalMutabilitySet<F>;
+        ...args
+    )) as OmitFirstParam<F>;
 
 }
 
 function getMutable<
     F extends OptionalyMutable
->(f: F): OptionalMutabilitySet<F> {
+>(f: F): OmitFirstParam<F> {
 
-    return ((x: any, y: any) => f(
-        x, y, x
-    )) as OptionalMutabilitySet<F>;
+    return ((...args) => f(
+        args[0], 
+        ...args
+    )) as OmitFirstParam<F>;
 
 }
 
