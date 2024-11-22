@@ -4,6 +4,7 @@
 // These are inteded to be wrapped
 // appropriately elsewhere.
 
+import { None } from "ts-maybe";
 import { IBinaryArray } from "../types/BinaryArray";
 import { FlexBinaryArray } from "../types/FlexBinaryArray";
 import { OptionalyMutable, OptionalMutabilitySet } from "../types/PossiblyMutableFn";
@@ -157,6 +158,11 @@ function getMutable<
 type NewBinaryArrayFn = () => IBinaryArray;
 
 function createUnsafeFns(newArrFn: NewBinaryArrayFn) {
+
+    if(None(newArrFn))
+        throw new Error(
+            "You need to provide a parameterless function "
+            + "that generates new BinaryArray objects.");
 
     return {
 
