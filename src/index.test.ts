@@ -1,3 +1,4 @@
+import { describe, it, expect } from "@jest/globals";
 import { getFixedFns, getFlexFns } from "./index";
 
 describe('getFixedFns', () => {
