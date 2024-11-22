@@ -131,14 +131,15 @@ function someBitsAreOne(
 
 function getImmutable<
     F extends OptionalyMutable
->(f: F): OptionalMutabilitySet<F> {
+>(
+    f: F,
+    newArrFn: NewBinaryArrayFn
+): OptionalMutabilitySet<F> {
 
     return ((x: any, y: any) => f(
-        x, y,
-        new FlexBinaryArray(
-            x.length, 
-            x.chunkLength,
-        )
+        x, 
+        y,
+        newArrFn(),
     )) as OptionalMutabilitySet<F>;
 
 }
@@ -153,31 +154,35 @@ function getMutable<
 
 }
 
-function createUnsafeFunctions(mut: boolean = false) {
+type NewBinaryArrayFn = () => IBinaryArray;
 
-    const transform = mut ?
-        getMutable
-        : getImmutable
+function createUnsafeFns(newArrFn: NewBinaryArrayFn) {
 
     return {
-        and: transform(and),
-        or: transform(or),
-        xor: transform(xor),
-        not: transform(not),
-        shiftLeft: transform(shiftLeft),
-        shiftRight: transform(shiftRight),
 
-        // This doesn't need transformed
+        and: getImmutable(and, newArrFn),
+        or: getImmutable(or, newArrFn),
+        xor: getImmutable(xor, newArrFn),
+        not: getImmutable(not, newArrFn),
+        shiftLeft: getImmutable(shiftLeft, newArrFn),
+        shiftRight: getImmutable(shiftRight, newArrFn),
+
+        mutAnd: getMutable(and),
+        mutOr: getMutable(or),
+        mutXor: getMutable(xor),
+        mutNot: getMutable(not),
+        mutShiftLeft: getMutable(shiftLeft),
+        mutShiftRight: getMutable(shiftRight),
+
         equal,
-
-        // Technically these 3 aren't unsafe
         allBitsAreZero,
         allBitsAreOne,
         someBitsAreOne,
+
     }
 
 }
 
 export {
-    createUnsafeFunctions
+    createUnsafeFns
 }
