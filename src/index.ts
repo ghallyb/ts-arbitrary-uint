@@ -1,4 +1,5 @@
 import { getFixedFns } from "./functions/fn-fixed";
+import { getFlexFns } from "./functions/fn-flex";
 
 // What to export from here?
 
@@ -6,5 +7,6 @@ import { getFixedFns } from "./functions/fn-fixed";
 // getFlexFns(defaultLength = 8, defaultChun = 8)
 
 export {
-    getFixedFns
+    getFixedFns,
+    getFlexFns
 }
