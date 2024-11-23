@@ -8,6 +8,8 @@
         "outDir": "dist",
         "declaration": true,
         "strict": true
-    }
+    },
+    "include": ["./src"],
+    "exclude": ["**/*.test.*", "**/*.tst.*"]
 }
   

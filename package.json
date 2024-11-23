@@ -4,17 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test-types": "node ./scripts/type-test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "copyfiles": "^2.4.1",
     "jest": "^29.7.0",
+    "replace": "^1.2.2",
+    "rimraf": "^6.0.1",
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
+    "tstyche": "^3.0.0",
     "typescript": "^5.6.3",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
