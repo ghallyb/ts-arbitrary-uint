@@ -1,32 +1,32 @@
-import { Maybe } from "ts-maybe";
-import { IBinaryArray } from "./BinaryArray";
-import { ChunkLength } from "./ChunkLength";
-import { Bit } from "./Bit";
-import { ChunkContainerMap } from "./ChunkContainerMap";
-import { getViewBit, getViewFromChunkLength, setViewBit } from "../functions/binary-array-common";
+import { Maybe, Some } from "ts-maybe";
+import { IBinaryArray } from "../types/BinaryArray";
+import { ChunkLength } from "../types/ChunkLength";
+import { Bit } from "../types/Bit";
+import { ChunkContainer } from "../types/ChunkContainer";
+import { getViewBit, setViewBit } from "../functions/binary-array-common";
 
-class FixedBinaryArray<
-    L extends number,
-    C extends ChunkLength
-> implements IBinaryArray{
+class FlexBinaryArray implements IBinaryArray{
 
     // Numeric Index Access only
     [key: number]: Maybe<Bit>;
 
-    readonly length: L;
+    readonly length: number = 32;
 
-    readonly chunkLength: C;
+    readonly chunkLength: ChunkLength = 32;
 
     readonly buffer: ArrayBuffer;
 
-    readonly view: ChunkContainerMap[C];
+    readonly view: ChunkContainer;
 
     constructor(
-        length: L, 
-        chunkLength: C
+        length: Maybe<number> = 32,
+        chunkLength: Maybe<ChunkLength> = 32
     ) {
-        this.length = length;
-        this.chunkLength = chunkLength;
+        if(Some(length))
+            this.length = length;
+
+        if(Some(chunkLength))
+            this.chunkLength = chunkLength;
 
         let chunks = this.length % this.chunkLength > 0 ?
             Math.floor(this.length / this.chunkLength) + 1
@@ -35,9 +35,7 @@ class FixedBinaryArray<
         let bytes = chunks / 8;
 
         this.buffer = new ArrayBuffer(bytes);
-        this.view = getViewFromChunkLength(
-            this.chunkLength, 
-            this.buffer);
+        this.view = new Uint32Array(this.buffer);
 
         return new Proxy(this, {
             
@@ -54,8 +52,11 @@ class FixedBinaryArray<
 
     private get(index: number) {
 
-        if(index < 0 || index > this.length - 1)
+        if(index < 0)
             throw Error("Index ouf of bounds.");
+
+        // if(index > this.length - 1)
+            // we need to grow
 
         return getViewBit(
             this.view,
@@ -67,8 +68,8 @@ class FixedBinaryArray<
 
     private set(index: number, value: Bit) {
 
-        if(index < 0 || index > this.length - 1)
-            throw Error("Index ouf of bounds.");
+        //if(index >= this.length)
+            // We need to grow first
 
         // Note: Not checking the value here. This lib
         // is designed to be used within a TS strict 
@@ -97,9 +98,8 @@ class FixedBinaryArray<
 
         return result;
     }
-
 }
 
 export {
-    FixedBinaryArray
+    FlexBinaryArray
 }

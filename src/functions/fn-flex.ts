@@ -1,5 +1,5 @@
 import { ChunkLength } from "../types/ChunkLength";
-import { FlexBinaryArray } from "../types/FlexBinaryArray";
+import { FlexBinaryArray } from "../classes/FlexBinaryArray";
 import { createUnsafeFns } from "./fn-unsafe";
 
 function getFlexFns(

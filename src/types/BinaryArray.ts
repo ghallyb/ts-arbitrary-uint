@@ -1,6 +1,6 @@
 import { Maybe } from "ts-maybe";
 import { ChunkLength } from "./ChunkLength";
-import { FlexBinaryArray } from "./FlexBinaryArray";
+import { FlexBinaryArray } from "../classes/FlexBinaryArray";
 import { ChunkContainer } from "./ChunkContainer";
 
 type Bit = 0 | 1;

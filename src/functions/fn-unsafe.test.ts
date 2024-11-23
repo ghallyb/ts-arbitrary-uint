@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { createUnsafeFns } from "./fn-unsafe";
-import { FlexBinaryArray } from "../types/FlexBinaryArray";
-import { FixedBinaryArray } from "../types/FixedBinaryArray";
+import { FlexBinaryArray } from "../classes/FlexBinaryArray";
+import { FixedBinaryArray } from "../classes/FixedBinaryArray";
 
 describe('createUnsafeFns', () => {
     it('returns object', () => {

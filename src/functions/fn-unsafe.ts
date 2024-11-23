@@ -6,7 +6,7 @@
 
 import { None } from "ts-maybe";
 import { IBinaryArray } from "../types/BinaryArray";
-import { FlexBinaryArray } from "../types/FlexBinaryArray";
+import { FlexBinaryArray } from "../classes/FlexBinaryArray";
 import { OptionalyMutable } from "../types/PossiblyMutableFn";
 import { OmitFirstParam } from "../types/OmitFirstParam";
 

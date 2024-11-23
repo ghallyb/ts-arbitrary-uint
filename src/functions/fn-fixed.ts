@@ -2,7 +2,7 @@
 // - Mostly using static checking as safety
 
 import { ChunkLength } from "../types/ChunkLength";
-import { FixedBinaryArray } from "../types/FixedBinaryArray";
+import { FixedBinaryArray } from "../classes/FixedBinaryArray";
 import { createUnsafeFns } from "./fn-unsafe";
 
 function getFixedFns<

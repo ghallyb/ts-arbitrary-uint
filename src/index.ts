@@ -1,3 +1,5 @@
+import { FixedBinaryArray } from "./classes/FixedBinaryArray";
+import { FlexBinaryArray } from "./classes/FlexBinaryArray";
 import { getFixedFns } from "./functions/fn-fixed";
 import { getFlexFns } from "./functions/fn-flex";
 
@@ -7,6 +9,8 @@ import { getFlexFns } from "./functions/fn-flex";
 // getFlexFns(defaultLength = 8, defaultChun = 8)
 
 export {
+    FixedBinaryArray,
+    FlexBinaryArray,
     getFixedFns,
     getFlexFns
 }
