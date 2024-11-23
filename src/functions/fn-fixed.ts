@@ -4,13 +4,14 @@
 import { ChunkLength } from "../types/ChunkLength";
 import { FixedBinaryArray } from "../classes/FixedBinaryArray";
 import { createUnsafeFns } from "./fn-unsafe";
+import { NotZero } from "../types/NotZero";
 
 function getFixedFns<
     L extends number, 
     C extends ChunkLength,
     T extends FixedBinaryArray<L,C>
 >(
-    length: L,
+    length: NotZero<L>,
     chunkLength: C,
 ) {
 

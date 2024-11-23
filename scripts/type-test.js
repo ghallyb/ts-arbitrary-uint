@@ -27,7 +27,7 @@ exec(
 
         // Find and replace any @ts-expect-error
         exec(
-            "pnpm replace '@ts-expect-error' '[removed ts-expect-error]' ./tmp -r", 
+            "pnpm replace '@ts-ignore' '[removed ts-ignore]' ./tmp -r", 
             (err, stdout, stderr) => {
                 if (err) {
                     console.error(`Error replacing text: ${stderr}`);

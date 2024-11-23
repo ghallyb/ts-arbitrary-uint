@@ -4,6 +4,7 @@ import { ChunkLength } from "../types/ChunkLength";
 import { Bit } from "../types/Bit";
 import { ChunkContainerMap } from "../types/ChunkContainerMap";
 import { getViewBit, getViewFromChunkLength, setViewBit } from "../functions/binary-array-common";
+import { NotZero } from "../types/NotZero";
 
 class FixedBinaryArray<
     L extends number,
@@ -13,7 +14,7 @@ class FixedBinaryArray<
     // Numeric Index Access only
     [key: number]: Maybe<Bit>;
 
-    readonly length: L;
+    readonly length: NotZero<L>;
 
     readonly chunkLength: C;
 
@@ -22,7 +23,7 @@ class FixedBinaryArray<
     readonly view: ChunkContainerMap[C];
 
     constructor(
-        length: L, 
+        length: NotZero<L>, 
         chunkLength: C
     ) {
         this.length = length;
