@@ -21,8 +21,8 @@ Should I use a proxy to map bit access to chunked access?
 Flex expansion:
 - How should these grow and shrink?
   - When two mismatched size are used in a bitwise or comparison operation : Grow to match biggest
-  - When an index larger than the current length is used to set: Grow to index or nearest byte?
-  - When an index larger than the current length is used to get: No action? Or Grow to index?
+  - When an index larger than the current length is used to set: Grow to index or nearest byte?: Grow to index.
+  - When an index larger than the current length is used to get: No action? Or Grow to index?: No action. Return undefined (like normal array)
   - Do shift operations cause expansios: Probs not, create growAndShiftLeft and growAndShiftRight(growBy, shiftBy)
 - Should we provide a way of specifying the default padding value during expansion: No,leave this out. Zero is used.
   - 0 is default: yah
