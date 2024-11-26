@@ -7,8 +7,9 @@
 import { None } from "ts-maybe";
 import { IBinaryArray } from "../types/BinaryArray";
 import { FlexBinaryArray } from "../classes/FlexBinaryArray";
-import { OptionalyMutable } from "../types/PossiblyMutableFn";
-import { OmitFirstParam } from "../types/OmitFirstParam";
+import { OptionalyMutable } from "../types/OptionalyMutableFn";
+import { OmitFirstParam } from "../types/helpers/OmitFirstParam";
+import { CommonFns } from "../types/BinaryArrayFns";
 
 function and(
     result: IBinaryArray,
@@ -67,16 +68,16 @@ function not(
 
 function shiftLeft(
     result: IBinaryArray,
-    x: IBinaryArray,
     no: number,
+    x: IBinaryArray,
 ): IBinaryArray {
     throw Error("shiftLeft Not Implemented.");
 }
 
 function shiftRight(
     result: IBinaryArray,
-    x: IBinaryArray,
     no: number,
+    x: IBinaryArray,
 ): IBinaryArray {
     throw Error("shiftRight Not Implemented.");
 }
@@ -158,7 +159,7 @@ function getMutable<
 
 type NewBinaryArrayFn = () => IBinaryArray;
 
-function createUnsafeFns(newArrFn: NewBinaryArrayFn) {
+function createUnsafeFns(newArrFn: NewBinaryArrayFn): CommonFns<IBinaryArray> {
 
     if(None(newArrFn))
         throw new Error(

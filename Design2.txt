@@ -1,0 +1,70 @@
+and|or|xor
+
+(r, ...operands) => r;
+(...operands) => r;
+
+not
+
+(r, op) => r
+(op) => r
+
+shiftLeft|shiftRight
+
+(r, no, op) => r
+(no, op) => r
+
+Multi versions of single op (not|shiftLeft|shiftRight)? 
+
+not
+
+(rFn, ...operands) => r[]
+
+shiftLeft
+
+(rFn, no, ...operands) => r[]
+
+No. Let user do it or provide helper
+Helper example:
+
+applyToMany(shiftLeft, 0, ...operands) => r[]
+
+
+Transforms:
+
+Align or Direction?
+
+Fixed // Fixed fns can't be mutable
+    resize(r, size, direction, fill, operand); // Operands same size
+    grow | shrink | growLeft | growRight | shrinkLeft | shrinkRight // do we need the curried versions?
+
+Flex
+    resize + grow same as above (fixed length resize) // what happens when smaller?
+    matchSize(large|small, allign, fill, ...ops) => r[]
+
+
+transforms.fixed = {
+    resize() // will chop from right, or pad 0 from right
+
+    toFlex()
+    toChunkSize()
+}
+
+transforms.flex = {
+    resize()
+    mutResize()
+    
+    growToMatchLargest()
+    mutGrowToMatchLargest()
+    
+    shrinkToMatchSmallest()
+    mutShrinkToMatchSmallest()
+
+    toFixed()
+    toChunkSize()
+}
+
+transforms.flex.expanded = {
+    // Basically these do a shift before resize
+    growLeft, growRight
+    shrinkLeft, shrinkRight,
+}

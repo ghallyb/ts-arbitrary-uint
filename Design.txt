@@ -43,3 +43,92 @@ we need to check:
 - Same chunk size
 - If either don't match, we need to pad. Doing
   so increases cpu cycles and memory usage.
+
+Notes on GROW mutability:
+
+Flex:
+mutFns
+- All operands and the result will be mutated during GROW
+  - Is this what we want? Or should it just be the result?
+    - If we mutate all to be the same size: 
+- OR: Only result is mutated.
+  - All accesses to index > length just return 0 for purpose
+    of calculation.
+imuFns
+- No operands will be mutated during GROW
+  - This means if there is a mismatch, new X and new Y will occur for every run
+  - Probs slow as balls 
+
+Decision to be made with flex:
+- Do we impose default behaviour for mismatched lengths
+- Or do we make the user specify what they want to happen
+
+a = new FlexBinaryArray(40);
+b = new FlexBinaryArray(8);
+c = new FlexBinaryArray(126);
+
+fns.andMany(a, b, c); // Treat them all as 126 with right most bits padded to Zero
+
+fns.matchSize(
+  largest | smallest,
+  left | right,
+  0 | 1,
+  a, b, c);
+
+fns.matchSize(largest, left, 0, a, b, c)
+fns.matchSize(largest, left, 0, ...ops)
+
+// aliases
+fns.growLeft(fillBit: 0 | 1, ...ops)
+fns.growRight(fillBit: 0 | 1, ...ops)
+fns.shrinkLeft(...ops)
+fns.shrinkRight(...ops)
+
+// mut / imu
+mut: all operands mutated
+imu: return ...ops.length x new objects
+
+// resize (vs match)
+- Resize grows by specific number instead of matching another operand
+- Same deal with align and fillBit
+
+Fixed don't need Align, Flex does? Or should there be functions
+to transform Fixed of different sizes? Suppose it would make sense.
+Typing of returned values would be tricky I think.
+
+I think typing wise you would need to specify the length
+for fixed ones, even if the underlying sizes were different.
+
+Fixed transforms should not have mutable versions otherwise
+you can shoot yourself in the foot (don't think there's a static
+way of handling the following)
+
+const fns = getFixedFns(32, 32)
+const a = fns.create();
+const b = fns.create();
+
+const aResized = fns.mut(64, "left", 1, a);
+// a has now been physically altered, but will
+// the type system pick that up if we try use "a"
+// again:
+
+fns.and(a, b); // Should fail because a is no longer <32,32>
+// I don't think this will fail though.
+
+fns.and(aResized, b) // Can and should fail (will get caught)
+
+const fns = getFixedFns(64, 32);
+fns.and(a, a); // Should work
+
+So I think fixed transformers will need to be explicit
+that they are copying the original into a new sized item.
+copyToNewSize(newLen, newChunk, align, fill, operand);
+
+// Maybe we do resize functions with left-to-right Zero
+// fills and build additional helpers on top of that
+// resize(len, chun, op) copyToNewSize(len, chun, op)
+// User would be responsible for shifting, filling, etc
+
+// growLeft(size, fillBit)
+    -> shiftLeft(oldSize - newSize)
+    -> setBits(oldsize, newsize, fillBit)
